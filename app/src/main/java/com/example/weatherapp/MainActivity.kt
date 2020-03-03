@@ -3,12 +3,10 @@ package com.example.weatherapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
+import com.example.weatherapp.ui.MapFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener,
-    GoogleMap.OnCameraIdleListener {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +19,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         navigation_view.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.n_map -> {
-                    setSelectFragment()
+                    setSelectFragment(MapFragment())
                     true
                 }
                 R.id.n_city_search -> {
@@ -35,16 +33,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         }
     }
 
-    private fun setSelectFragment(fr: Fragment? = null) {
-        fr?.let { supportFragmentManager.beginTransaction().add(R.id.main_fragment, it).commit() }
+    private fun setSelectFragment(fr: Fragment) {
+        supportFragmentManager.beginTransaction().add(R.id.main_fragment, fr).commit()
     }
 
-    override fun onMapReady(p0: GoogleMap?) {
-    }
+    /* 1. Добавить кнопку на НАШ MapFragment(), при нажатии на кнопку нужно сделать отображение
+     всплывающего окна погоды.
+     2. Исправить ошибку при нажатии на мап баттон
 
-    override fun onCameraMove() {
-    }
-
-    override fun onCameraIdle() {
-    }
+     */
 }
