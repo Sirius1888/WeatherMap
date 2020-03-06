@@ -6,9 +6,6 @@ import com.example.weatherapp.ui.map.MapViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-/**
- * Created by Karukes Sergey on
- */
 val appModule = module {
 
     single {

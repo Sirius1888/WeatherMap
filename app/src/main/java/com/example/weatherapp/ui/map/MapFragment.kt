@@ -29,7 +29,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListen
     }
 
     private fun getWeather() {
-        viewModel.getWeatherData("metrics", "35", "139", "c6e381d8c7ff98f0fee43775817cf6ad")
+        viewModel.getWeatherData("metrics", "35", "139")
     }
 
     private fun setupMap() {

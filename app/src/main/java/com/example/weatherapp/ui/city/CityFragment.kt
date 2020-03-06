@@ -24,5 +24,4 @@ class CityFragment : Fragment() {
         return view
     }
 
-
 }
