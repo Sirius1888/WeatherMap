@@ -3,6 +3,7 @@ package com.example.weatherapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.weatherapp.ui.city.CityFragment
 import com.example.weatherapp.ui.map.MapFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.n_city_search -> {
+                    setSelectFragment(CityFragment())
                     true
                 }
                 R.id.n_profile -> {
@@ -34,12 +36,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSelectFragment(fr: Fragment) {
-        supportFragmentManager.beginTransaction().add(R.id.main_fragment, fr).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.main_fragment, fr).addToBackStack(fr.tag).commit()
     }
 
-    /* 1. Добавить кнопку на НАШ MapFragment(), при нажатии на кнопку нужно сделать отображение
-     всплывающего окна погоды.
-     2. Исправить ошибку при нажатии на мап баттон
+    /*
+    1. (Кто не сделал предыдущее задание) - сделать его!!! - 0.5б
+    2. Сделать отображение погоды по координатам в фрагменте погоды! - 1б
 
      */
 }

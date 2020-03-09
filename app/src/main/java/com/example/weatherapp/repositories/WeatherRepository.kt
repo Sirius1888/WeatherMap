@@ -10,10 +10,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+private const val BASE_URL = "http://api.openweathermap.org/"
 class WeatherRepository() {
     private lateinit var api: ApiService
-    fun getWeatherData(units: String, lat: String, lon: String): LiveData<WeatherMainModel> {
-        api = RetrofitClient.instanceRetrofit()!!
+
+    fun getWeatherData(units: String, lat: String, lon: String): MutableLiveData<WeatherMainModel> {
+        api = RetrofitClient.instanceRetrofit(BASE_URL)!!
         val data = MutableLiveData<WeatherMainModel>()
         api.getWeatherData(units, lat, lon, WEATHER_KEY)
             .enqueue(object : Callback<WeatherMainModel> {
