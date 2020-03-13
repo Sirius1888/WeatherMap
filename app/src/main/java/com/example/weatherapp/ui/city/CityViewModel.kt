@@ -2,15 +2,16 @@ package com.example.weatherapp.ui.city
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.weatherapp.model.city.CityDataModel
+import com.example.weatherapp.base.BaseViewModel
+import com.example.weatherapp.model.city.CityModel
 import com.example.weatherapp.repositories.CitiesRepository
 
-class CityViewModel(private val cRepository: CitiesRepository) : ViewModel() {
+class CityViewModel(private val cRepository: CitiesRepository) : BaseViewModel() {
 
-
-    fun getCityData(capital: String): MutableLiveData<List<CityDataModel>> {
-        return cRepository.getCityData(capital)
+    var cities: MutableLiveData<MutableList<CityModel>> = MutableLiveData()
+    fun getCityData(city: String) {
+        loading.value = false
+        cities = cRepository.getCityData(city)
     }
-
 
 }

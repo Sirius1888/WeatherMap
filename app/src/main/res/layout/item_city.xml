@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/normal_padding"
-        android:layout_marginEnd="@dimen/normal_padding"
-        android:layout_marginTop="@dimen/normal_padding"
-        android:textColor="@color/title_text_color"
-        android:textSize="@dimen/large_text_size"
-        tools:text="Kyrgyzstan" />
+    android:orientation="vertical"
+    android:padding="4dp">
 
     <TextView
+        android:id="@+id/city_sub_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/normal_padding"
-        android:layout_marginEnd="@dimen/normal_padding"
-        android:layout_marginTop="@dimen/normal_padding"
-        android:textColor="@color/subtitle_text_color"
-        android:textSize="@dimen/small_text_size"
-        tools:text="Bishkek" />
+        android:text="sub title"
+        android:textColor="@color/grad_line_color1"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/city_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="title"
+        android:textSize="15sp" />
 </LinearLayout>

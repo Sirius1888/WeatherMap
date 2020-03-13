@@ -1,53 +1,78 @@
 package com.example.weatherapp.ui.city
 
-import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.LayoutInflater
+import android.content.Intent
+import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
-import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
-import kotlinx.android.synthetic.main.fragment_city.*
+import com.example.weatherapp.base.BaseFragment
+import com.example.weatherapp.model.city.CityModel
+import com.example.weatherapp.ui.detail_city.DetailCityActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CityFragment : Fragment() {
-
-
-    private lateinit var searchEditText: EditText
+class CityFragment : BaseFragment(R.layout.fragment_city) {
+    private lateinit var cAdapter: CityAdapter
+    private lateinit var searchView: SearchView
+    private lateinit var recyclerView: RecyclerView
     private val viewModel: CityViewModel by viewModel()
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        val view: View? = inflater.inflate(R.layout.fragment_city, container, false)
-        view?.let { bindView(it) }
-        searchCity()
-        return view
+
+    override fun initViews(view: View) {
+        searchView = view.findViewById(R.id.search_view)
+        recyclerView = view.findViewById(R.id.recycler_view)
+        initRecycler()
+        getCityData()
     }
 
-    private fun bindView(view: View) {
-        searchEditText = view.findViewById(R.id.search_edit_text)
+    override fun loadingStatus() {
+        viewModel.loading.observe(this@CityFragment, Observer {
+            Log.v("viewmodel state: ", viewModel.loading.value.toString())
+        })
     }
 
+    private fun initRecycler() {
+        cAdapter = CityAdapter(this@CityFragment::onClickItem)
+        recyclerView.apply {
+            adapter = cAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
+    }
 
-    private fun searchCity() {
-        searchEditText.addTextChangedListener(object : TextWatcher {
+    private fun onClickItem(city: CityModel) {
+        val intent = Intent(context, DetailCityActivity::class.java)
+        intent.putExtra("city", city.flag)
+        startActivity(intent)
+    }
 
-            override fun afterTextChanged(s: Editable) {}
+    private fun getCityData() {
 
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {
+        searchView.queryHint = "Введите название города"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                val timer = object : CountDownTimer(800, 1000) {
+
+                    override fun onTick(millisUntilFinished: Long) {}
+                    override fun onFinish() {
+                        viewModel.loading.value = true
+                        viewModel.getCityData(newText)
+                        viewModel.cities.observe(viewLifecycleOwner, Observer {
+                            if (!it.isNullOrEmpty())
+                                cAdapter.updateList(it as MutableList<CityModel>)
+                        })
+                    }
+                }
+                timer.start()
+                return true
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
-                viewModel.getCityData(search_edit_text.text.toString())
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
             }
         })
     }
+
 }
