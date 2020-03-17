@@ -1,13 +1,15 @@
 package com.example.weatherapp.repositories
 
 import androidx.lifecycle.MutableLiveData
+import com.example.weatherapp.db.FavoriteCitiesDao
+import com.example.weatherapp.model.city.FavoriteCities
 import com.example.weatherapp.model.weather.WeatherModel
 import com.example.weatherapp.network.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class WeatherRepository(private val retrofit: RetrofitClient) {
+class WeatherRepository(private val retrofit: RetrofitClient, private val dao: FavoriteCitiesDao) {
     private lateinit var api: WeatherApi
 
     fun getWeatherData(units: String, lat: String, lon: String): MutableLiveData<WeatherModel> {
@@ -27,6 +29,15 @@ class WeatherRepository(private val retrofit: RetrofitClient) {
                 }
             })
         return data
+    }
+
+    suspend fun insertToDb(lng: Double, lat: Double) {
+        dao.insertFavorite(
+            FavoriteCities(
+                id = 1,
+                latitude = lat,
+                longitude = lng)
+        )
     }
 
 }

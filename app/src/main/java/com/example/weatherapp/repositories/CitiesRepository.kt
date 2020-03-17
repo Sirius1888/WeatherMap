@@ -15,7 +15,7 @@ import retrofit2.Response
 class CitiesRepository(private val retrofit: RetrofitClient) {
     private lateinit var api: CityApi
 
-    fun getCityData(capital: String): MutableLiveData<MutableList<CityModel>> {
+    suspend fun getCityData(capital: String): MutableLiveData<MutableList<CityModel>> {
         api = retrofit.retrofit(NetworkConstants.BASE_CITY_URL).create(CityApi::class.java)
         val data = MutableLiveData<MutableList<CityModel>>()
         api.getCityData(capital)

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
+import com.example.weatherapp.ui.weather_bottom.WeatherBottomSheet
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -38,7 +39,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListen
     }
 
     private fun initBottomSheet(it: Marker) {
-        val bottomWeather = WeatherBottomSheet()
+        val bottomWeather =
+            WeatherBottomSheet()
         if (!bottomWeather.isAdded) bottomWeather.show(activity!!.supportFragmentManager, bottomWeather.tag)
     }
 

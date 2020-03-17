@@ -2,9 +2,9 @@ package com.example.weatherapp.ui.city
 
 import android.content.Intent
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +13,10 @@ import com.example.weatherapp.R
 import com.example.weatherapp.base.BaseFragment
 import com.example.weatherapp.model.city.CityModel
 import com.example.weatherapp.ui.detail_city.DetailCityActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.coroutines.CoroutineContext
 
 class CityFragment : BaseFragment(R.layout.fragment_city) {
     private lateinit var cAdapter: CityAdapter
@@ -49,8 +52,8 @@ class CityFragment : BaseFragment(R.layout.fragment_city) {
     }
 
     private fun getCityData() {
-
         searchView.queryHint = "Введите название города"
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 val timer = object : CountDownTimer(800, 1000) {
