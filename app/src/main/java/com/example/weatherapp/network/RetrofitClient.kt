@@ -1,5 +1,6 @@
 package com.example.weatherapp.network
 
+import com.example.weatherapp.repositories.CitiesRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,6 +12,7 @@ class RetrofitClient {
     private val httplLogging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
+
     private val okHttpClient = OkHttpClient().newBuilder().addInterceptor(httplLogging)
         .connectTimeout(40, TimeUnit.SECONDS)
         .readTimeout(40, TimeUnit.SECONDS)
