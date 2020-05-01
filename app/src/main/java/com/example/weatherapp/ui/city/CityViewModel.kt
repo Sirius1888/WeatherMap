@@ -11,17 +11,9 @@ import kotlinx.coroutines.launch
 
 class CityViewModel(private val cRepository: CitiesRepository) : BaseViewModel() {
 
-    var cities: MutableLiveData<MutableList<CityModel>> = MutableLiveData()
+    var cities: MutableLiveData<List<CityModel>?> = MutableLiveData()
     fun getCityData(city: String) {
-        viewModelScope.launch {
-            getCityDataFromNetwork(city)
-            loading.value = false
-
-        }
-    }
-
-    private suspend fun getCityDataFromNetwork(city: String) {
-        cities = cRepository.getCityData(city)
+        cities.value = cRepository.getCityData(city).data
     }
 
 }

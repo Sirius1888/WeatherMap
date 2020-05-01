@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.weatherapp.stringFromResources
 
-abstract class BaseFragment(private val layoutId: Int) :
-    Fragment() {
+abstract class BaseFragment<ViewModel: BaseViewModel>(private val layoutId: Int) : Fragment() {
+
+    protected abstract val viewModel: ViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,5 +28,9 @@ abstract class BaseFragment(private val layoutId: Int) :
 
     abstract fun initViews(view: View)
     abstract fun loadingStatus()
+
+    fun stringFromResources(id: Int): String? {
+        return activity?.applicationContext?.stringFromResources(id)
+    }
 
 }

@@ -2,7 +2,6 @@ package com.example.weatherapp.ui.city
 
 import android.content.Intent
 import android.os.CountDownTimer
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.SearchView
@@ -13,16 +12,14 @@ import com.example.weatherapp.R
 import com.example.weatherapp.base.BaseFragment
 import com.example.weatherapp.model.city.CityModel
 import com.example.weatherapp.ui.detail_city.DetailCityActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.coroutines.CoroutineContext
+import org.koin.android.ext.android.inject
 
-class CityFragment : BaseFragment(R.layout.fragment_city) {
+class CityFragment : BaseFragment<CityViewModel>(R.layout.fragment_city) {
     private lateinit var cAdapter: CityAdapter
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
-    private val viewModel: CityViewModel by viewModel()
+
+    override val viewModel by inject<CityViewModel>()
 
     override fun initViews(view: View) {
         searchView = view.findViewById(R.id.search_view)
@@ -52,7 +49,7 @@ class CityFragment : BaseFragment(R.layout.fragment_city) {
     }
 
     private fun getCityData() {
-        searchView.queryHint = "Введите название города"
+        searchView.queryHint = stringFromResources(R.string.type_name_of_city)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
@@ -61,6 +58,7 @@ class CityFragment : BaseFragment(R.layout.fragment_city) {
                     override fun onTick(millisUntilFinished: Long) {}
                     override fun onFinish() {
                         viewModel.loading.value = true
+
                         viewModel.getCityData(newText)
                         viewModel.cities.observe(viewLifecycleOwner, Observer {
                             if (!it.isNullOrEmpty())

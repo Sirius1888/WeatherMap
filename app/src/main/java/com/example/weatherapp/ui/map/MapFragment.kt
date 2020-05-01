@@ -1,34 +1,34 @@
 package com.example.weatherapp.ui.map
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
 import com.example.weatherapp.base.BaseMapFragment
+import com.example.weatherapp.showToast
+import com.example.weatherapp.toSom
 import com.example.weatherapp.ui.weather_bottom.WeatherBottomSheet
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
-class MapFragment : BaseMapFragment(R.layout.fragment_map) {
+class MapFragment : BaseMapFragment<MapViewModel>(R.layout.fragment_map) {
 
-    private val viewModel: MapViewModel by viewModel()
+    override val viewModel by inject<MapViewModel>()
+
     private lateinit var weatherBottomSheet: BottomSheetBehavior<View>
     private var isDisplayingMarkers = true
 
     private fun initBottomSheet(it: Marker) {
         val bottomWeather =
             WeatherBottomSheet()
-        if (!bottomWeather.isAdded) bottomWeather.show(activity!!.supportFragmentManager, bottomWeather.tag)
+        if (!bottomWeather.isAdded) bottomWeather.show(
+            activity!!.supportFragmentManager,
+            bottomWeather.tag
+        )
     }
 
     private fun getWeather() {
@@ -46,6 +46,9 @@ class MapFragment : BaseMapFragment(R.layout.fragment_map) {
         getWeather()
 
         click()
+
+        val count = 20000
+        activity?.applicationContext?.showToast(count.toSom())
     }
 
     override fun initMap() {
@@ -60,7 +63,8 @@ class MapFragment : BaseMapFragment(R.layout.fragment_map) {
                 Toast.LENGTH_LONG
             ).show()
             addMarkerToMap(it)
-        }    }
+        }
+    }
 
     private fun click() {
         isDisplayingMarkers = false

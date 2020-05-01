@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.weatherapp.ui.city.CityFragment
 import com.example.weatherapp.ui.map.MapFragment
@@ -14,6 +15,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSelectFragment(MapFragment())
         setupNavigationView()
+
+
     }
 
     private fun setupNavigationView() {
@@ -38,11 +41,4 @@ class MainActivity : AppCompatActivity() {
     private fun setSelectFragment(fr: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.main_fragment, fr).addToBackStack(fr.tag).commit()
     }
-
-    /*
-    1) Переписать все запросы на корутины.
-    2) Добавить сохранение мест в бд.
-    3) Сделать удаление из бд.
-    4) Сделать запрос на получение всех элементов из бд и отобразить их на карте.
-     */
 }

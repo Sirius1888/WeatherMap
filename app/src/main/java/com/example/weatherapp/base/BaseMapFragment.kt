@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.weatherapp.R
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 
 
-abstract class BaseMapFragment(private val layout: Int) : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener,
+abstract class BaseMapFragment<ViewModel: BaseViewModel>(private val layout: Int) : Fragment(), OnMapReadyCallback,
+    GoogleMap.OnCameraMoveListener,
     GoogleMap.OnCameraIdleListener {
+
     lateinit var mMap: GoogleMap
+
+    protected abstract val viewModel: ViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
